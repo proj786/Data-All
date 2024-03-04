@@ -1,0 +1,17 @@
+
+https://www.interviewquery.com/questions/transactions-in-the-last-5-days
+
+
+SQL :
+
+with cte1 as
+(
+    select distinct user_id,date(created_at) date
+    from bank_transactions
+)
+,cte2 as (
+select user_id
+from cte1
+group by 1 
+having count(*)=5)
+select count(*) as number_of_users from cte2

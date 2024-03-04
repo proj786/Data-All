@@ -1,0 +1,27 @@
+https://platform.stratascratch.com/coding/10353-workers-with-the-highest-salaries?code_type=1
+
+
+SQL :
+
+with cte as (
+select a.worker_title ,b.worker_id, sum(b.salary) as salary_sum
+,rank() over(partition by a.worker_title order by sum(b.salary) desc) as rank_1
+from title a
+left join worker b on a.worker_ref_id=b.worker_id
+group by a.worker_title ,b.worker_id
+order by sum(b.salary) DESC)
+select worker_title from cte 
+where rank_1=1 and salary_sum=(select max(salary_sum) from cte)
+
+
+
+Python:
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+df=title.merge(worker,left_on='worker_ref_id',right_on='worker_id',how='left')
+max_salary=df[df['salary']==df['salary'].max()][['worker_title']].rename(columns={'worker_title':'best_paid_title'})
+
+result=max_salary

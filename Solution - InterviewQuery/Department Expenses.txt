@@ -1,0 +1,35 @@
+https://www.interviewquery.com/questions/department-expenses
+
+SQL :
+
+with cte1 as (
+select b.name as department_name, 
+       sum(case when year(a.date)=2022 then a.amount else 0 end) as total_expense
+from departments b
+left join expenses a on a.department_id=b.id
+group by a.department_id
+)
+select department_name, total_expense,
+       round(avg(total_expense) over (),2) as average_expense
+from cte1
+order by total_expense DESC
+
+
+
+
+Python :
+
+import pandas as pd
+
+import pandas as pd
+
+def department_expenses(departments: pd.DataFrame, expenses: pd.DataFrame):
+    expenses['date'] = pd.to_datetime(expenses['date'])
+    expenses = expenses[expenses['date'].dt.year == 2022]
+    df = departments.merge(expenses, how = 'left', left_on = 'id', right_on = 'department_id')
+    df2 = df.groupby('name', as_index = False)['amount'].sum()
+    avg = df2['amount'].mean().round(2)
+    df2.columns = ['department_name', 'total_expense']
+    df2['average_expense'] = avg
+    return df2
+    pass

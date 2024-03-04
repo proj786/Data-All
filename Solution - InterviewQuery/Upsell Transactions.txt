@@ -1,0 +1,30 @@
+
+
+https://www.interviewquery.com/questions/upsell-transactions
+
+SQL :
+
+select count(*) as num_of_upsold_customers
+from (
+select user_id
+from transactions
+group by user_id
+having count(distinct created_at)>1
+) t
+
+
+Python
+
+
+import pandas as pd
+
+def upsell_transactions(transactions: pd.DataFrame):
+    df=transactions.groupby('user_id').agg({'created_at': pd.Series.nunique})
+    df=df.reset_index()
+    df=df[df['created_at']>1]
+
+    df1=pd.DataFrame()
+    x=[df['user_id'].count()]
+    df1['num_of_upsold_customers']=x
+    return df1  
+ 

@@ -1,0 +1,27 @@
+
+https://www.interviewquery.com/questions/top-3-users
+
+SQL:
+
+
+with cte as(
+select user_id,
+       date,
+       downloads,
+       rank() over (partition by date order by downloads desc) as daily_rank
+from download_facts)
+select daily_rank,user_id,date,downloads
+from cte
+where daily_rank in (1,2,3)
+order by date , daily_rank
+
+
+Python:
+
+import pandas as pd
+
+def top_3_users(download_facts: pd.DataFrame):
+    df=download_facts
+    df['daily_rank']=download_facts.groupby('date')['downloads'].rank(ascending=False)
+    df=df[df['daily_rank']<=3]
+    return df.sort_values('daily_rank').sort_values('date')

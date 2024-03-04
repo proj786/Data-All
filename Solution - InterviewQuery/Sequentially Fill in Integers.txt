@@ -1,0 +1,30 @@
+https://www.interviewquery.com/questions/sequentially-fill-in-integers
+
+SQL:
+
+with recursive cte_numbers as
+(
+    select int_numbers , 1 as counter from tbl_numbers
+    union all
+    select int_numbers,
+           counter+1
+    from cte_numbers
+    where counter < int_numbers
+)
+select int_numbers as seq_numbers from cte_numbers
+order by int_numbers
+
+
+
+Python :
+
+import pandas as pd
+
+def sequentially_fill_in_integers(tbl_numbers: pd.DataFrame):
+    l=[]
+    for i in tbl_numbers['int_numbers']:
+        for j in range(i):
+            l.append(i)
+
+    df=pd.DataFrame({'seq_numbers':l})
+    return df

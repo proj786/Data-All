@@ -1,0 +1,7 @@
+https://platform.stratascratch.com/coding/10156-number-of-units-per-nationality?code_type=2
+
+SQL:
+
+
+
+Python:

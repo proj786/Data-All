@@ -1,0 +1,11 @@
+https://www.interviewquery.com/questions/top-5-turnover-risk
+
+SQL:
+
+SELECT b.employee_id
+FROM employees  a  join projects b on a.id=b.employee_id
+where b.End_dt is not null 
+group by a.id
+having count(b.project_id)>=3
+order by sum(a.salary)
+limit 5

@@ -1,0 +1,42 @@
+
+https://platform.stratascratch.com/coding/10308-salaries-differences?code_type=1
+SQL :
+
+with data as
+(select  a.department,b.salary
+from db_dept a 
+left join db_employee b on a.id=b.department_id
+where a.department in ('marketing','engineering')
+)
+,market as 
+(select max(salary) as max_sal 
+from data 
+where department='marketing' 
+group by department
+)
+,engineer as 
+(select max(salary) as max_sal
+from data
+where department='engineering'
+group by department)
+select abs(a.max_sal-b.max_sal) as difference from market a cross join engineer b 
+
+
+
+Python:
+
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+df=db_dept.merge(db_employee ,left_on='id',right_on='department_id' ,how='left')
+df_market=df[df['department']=='marketing']
+df2=df_market.groupby('department')['salary'].max().reset_index(name='salary_mkt')
+
+df_engineer=df[df['department']=='engineering']
+df3=df_engineer.groupby('department')['salary'].max().reset_index(name='salary_eng')
+
+diff=abs(pd.DataFrame(df2['salary_mkt']-df3['salary_eng']))
+diff.columns=['salary_difference']
+diff

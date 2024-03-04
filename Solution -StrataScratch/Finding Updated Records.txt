@@ -1,0 +1,18 @@
+https://platform.stratascratch.com/coding/10299-finding-updated-records?code_type=1
+
+SQL :
+
+select distinct id , first_name,last_name,department_id, 
+   max(salary) over(partition by id ) as current_salary
+from ms_employee_salary
+order by id asc
+
+
+Python:
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+df=ms_employee_salary.groupby(['id','first_name','last_name','department_id'])['salary'].max().reset_index(name='current_salary')
+df.sort_values('id')

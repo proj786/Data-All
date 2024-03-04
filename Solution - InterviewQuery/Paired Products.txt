@@ -1,0 +1,38 @@
+https://www.interviewquery.com/questions/paired-products
+
+SQL
+
+with cte1 as (
+select a.*,b.name
+ from transactions a join products b on a.product_id=b.id
+)
+select a.name as p1 ,b.name as p2, count(*) as qty
+from cte1 a join cte1 b on a.user_id=b.user_id
+                       and a.name < b.name
+                       and a.created_at=b.created_at
+group by 1,2 order by 3 desc, 2 asc
+limit 5
+
+Python
+
+
+import pandas as pd
+
+def paired_products(products: pd.DataFrame, transactions: pd.DataFrame):
+    df = pd.merge(transactions, products , left_on='product_id',
+                  right_on='id', how='inner')
+    df=df[['user_id', 'created_at','name']]
+    
+    df=pd.merge(df,df,on=['user_id','created_at'])
+    df=df[df['name_x']<df['name_y']]
+    
+    df=df[['name_x','name_y','created_at']].groupby(by=['name_x','name_y']).count()
+    df= df.reset_index()
+
+    df.rename(columns={'name_x':'p1','name_y':'p2','created_at':'qty'},inplace=True)
+    df=df.sort_values('p2').sort_values('qty',ascending=False)
+
+    return df.head(5)
+
+
+

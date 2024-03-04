@@ -1,0 +1,18 @@
+https://www.interviewquery.com/questions/cumulative-sales-since-last-restocking
+
+SQL :
+
+with last_restock as (
+select product_id , max(restock_date) as restock_date
+from restocking
+group by product_id     
+)
+
+SELECT a.product_name,b.date,
+       sum(b.sold_count) over (partition by b.product_id,c.restock_date
+                               order by b.date) as sales_since_last_restock
+FROM products a
+join sales b on a.product_id=b.product_id
+join last_restock c on a.product_id=c.product_id
+where b.date >= c.restock_date
+order by a.product_id
