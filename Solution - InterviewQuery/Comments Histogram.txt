@@ -2,7 +2,29 @@ https://www.interviewquery.com/questions/comments-histogram
 
 SQL :
 
+with cte1 as (
+select a.id,count(b.user_id) as comment_count
+from users a  left join comments b  on a.id=b.user_id
+                                  and b.created_at between '2020-01-01' and '2020-01-31'
+group by a.id
+)
+select comment_count , count(*) as frequency
+from cte1
+group by comment_count
 
 
 
 Python:
+
+
+import pandas as pd
+
+def comments_histogram(comments: pd.DataFrame, users: pd.DataFrame):
+	comments['created_at'] = pd.to_datetime(comments['created_at'])
+	filtered_comments = comments[(comments['created_at'] >= '2020-01-01') & (comments['created_at'] <= '2020-01-31')]
+	comment_counts = filtered_comments.groupby('user_id').size().reset_index(name='comment_count')
+	user_comment_counts = pd.merge(users, comment_counts, how='left', left_on='id', right_on='user_id')
+	user_comment_counts['comment_count'] = user_comment_counts['comment_count'].fillna(0)
+	comment_count_frequency = user_comment_counts.groupby('comment_count').size().reset_index(name='frequency')
+	
+	return comment_count_frequency
