@@ -1,0 +1,28 @@
+https://platform.stratascratch.com/coding?code_type=1&difficulties=1
+
+SQL :
+
+select 
+   user_id, 
+   ROUND(SUM(ISNULL(listen_duration, 0)) / 60.0, 2) as total_listen_duration ,
+    count(distinct song_id) as unique_song_count 
+from listening_habits
+Group by user_id;
+
+
+Python:
+
+
+import pandas as pd
+# Replacing NaN values with 0 in listen_duration
+listening_habits['listen_duration'].fillna(0, inplace=True)
+
+# Grouping by user_id
+grouped_data = listening_habits.groupby('user_id').agg(
+    total_listen_duration=('listen_duration', 'sum'),
+    unique_song_count=('song_id', 'nunique')
+).reset_index()
+
+grouped_data['total_listen_duration']=(grouped_data['total_listen_duration']/60 ).round()
+
+grouped_data
