@@ -1,0 +1,27 @@
+https://www.interviewquery.com/questions/project-pairs
+
+SQL :
+
+
+select a.title as project_title_end, b.title as project_title_start,a.end_date as date
+from projects a join projects b on b.start_date=a.end_date
+
+
+
+
+
+
+
+
+
+
+Python :
+import pandas as pd
+
+def project_pairs(projects: pd.DataFrame):
+    df=pd.merge(projects,projects,left_on='start_date',right_on='end_date',how='inner')
+    df1=df[['title_y','title_x','start_date_x']]
+    df1.columns=['project_title_end','project_title_start','date']
+    df1['date']=pd.to_datetime(df1['date'])
+    return df1
+    
