@@ -1,0 +1,18 @@
+https://platform.stratascratch.com/coding/10366-customer-feedback-analysis?code_type=1
+
+
+SQL :
+select distinct * 
+from customer_feedback
+where comment_category <> 'short_comments'
+and source_channel='social_media'
+
+
+Python :
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+customer_feedback=customer_feedback[(customer_feedback['comment_category']!='short_comments')&(customer_feedback['source_channel']=='social_media')]
+
+customer_feedback= customer_feedback.drop_duplicates()

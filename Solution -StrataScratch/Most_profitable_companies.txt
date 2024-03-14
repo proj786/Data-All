@@ -1,0 +1,19 @@
+https://platform.stratascratch.com/coding/10354-most-profitable-companies?code_type=1
+
+SQL :
+
+select company,profits
+from forbes_global_2010_2014
+order by profits DESC
+limit 3;
+
+
+
+Python:
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+df=forbes_global_2010_2014.sort_values(by='profits',ascending=False)
+df[['company','profits']][:3]

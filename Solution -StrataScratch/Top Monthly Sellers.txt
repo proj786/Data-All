@@ -1,0 +1,27 @@
+https://platform.stratascratch.com/coding/10362-top-monthly-sellers?code_type=1
+
+SQL :
+
+with cte1 as(
+select seller_id,total_sales,product_category,market_place,month,
+dense_rank() over (partition by product_category order by total_sales desc) as rn
+from sales_data
+where month='2024-01'
+)
+select seller_id,total_sales,product_category,market_place,month from cte1 where rn <=3
+
+
+
+Python:
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+sales_data['month']=sales_data['month'].astype(str)
+
+january_sales=sales_data[sales_data['month'].str.startswith('2024-01')]
+
+top_sellers=january_sales.groupby('product_category').apply(lambda x : x.nlargest(3,'total_sales',keep='all')).reset_index(drop=True)
+
+top_sellers
+

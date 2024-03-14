@@ -1,0 +1,18 @@
+https://platform.stratascratch.com/coding/10166-reviews-of-hotel-arena?code_type=3
+
+SQL:
+
+select hotel_name, reviewer_score, count(*) as no_of_rows
+from hotel_reviews
+where hotel_name='Hotel Arena'
+group by hotel_name, reviewer_score ;
+
+
+Python:
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+hotel_reviews=hotel_reviews[hotel_reviews['hotel_name']=='Hotel Arena']
+hotel_reviews.groupby(['hotel_name','reviewer_score']).agg(no_of_rows=('reviewer_score','count')).reset_index()

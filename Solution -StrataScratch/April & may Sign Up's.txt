@@ -1,0 +1,21 @@
+https://platform.stratascratch.com/coding/2159-april-may-sign-ups?code_type=1
+
+SQL :
+
+
+select DISTINCT signup_id
+from transactions
+WHERE EXTRACT(MONTH from transaction_start_date) IN (4,5)  ;
+
+
+
+Python :
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+transactions['transaction_start_date']=pd.to_datetime(transactions['transaction_start_date'])
+transactions['month']=transactions['transaction_start_date'].dt.month
+transactions=transactions[(transactions['month']==4) | (transactions['month']==5)]
+
+result=transactions['signup_id'].unique()

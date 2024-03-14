@@ -1,0 +1,28 @@
+https://platform.stratascratch.com/coding/2160-oregons-prior-months-sales?code_type=1
+
+
+SQL :
+
+select sum(a.units_sold*a.cost_in_dollars) as total_sales
+from online_orders a join online_customers b on a.customer_id=b.id
+where Extract(month from a.date)= 4
+and b.state='Oregon';
+
+
+
+Python:
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+online_orders['date']=pd.to_datetime(online_orders['date'])
+online_orders['month']=online_orders['date'].dt.month
+online_orders=online_orders[online_orders['month']==4]
+online_orders['total_sales']=online_orders['units_sold']*online_orders['cost_in_dollars']
+
+online_customers=online_customers[online_customers['state']=='Oregon']
+
+data=pd.merge(online_orders,online_customers,left_on='customer_id',right_on='id',how='inner')
+
+data['total_sales'].sum()
