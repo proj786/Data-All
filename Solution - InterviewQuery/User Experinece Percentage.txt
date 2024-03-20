@@ -1,0 +1,33 @@
+https://www.interviewquery.com/questions/user-experience-percentage
+
+SQL :
+
+
+with cte1 as (
+select *
+,lag(position_name) over(partition by user_id order by start_date asc) as previous_position
+from user_experiences
+)
+select count(distinct user_id ) * 1.0 /(select count(distinct user_id) from user_experiences) as percentage
+from cte1
+where position_name='Data Scientist' and previous_position='Data Analyst'
+
+
+
+
+Python:
+
+import pandas as pd
+
+def user_experience_percentage(user_experiences: pd.DataFrame):
+
+    df=user_experiences.copy()
+    df['start_date']=pd.to_datetime(df['start_date'])
+    df['Previous_position']=df.sort_values(['user_id','start_date']).groupby('user_id')['position_name'].shift(1)
+    num=df[(df['position_name']=='Data Scientist') & (df['Previous_position']=='Data Analyst')]['user_id'].nunique()
+    den=df['user_id'].nunique()
+    return pd.DataFrame ({'percentage':[ num/den]})
+
+    
+    
+    
