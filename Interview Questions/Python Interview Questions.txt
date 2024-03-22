@@ -1,0 +1,31 @@
+Let's start to prepare for Python questions in your data analyst interviews.
+
+Here's a list of questions I've encountered in the past:
+
+𝟭. 𝗙𝘂𝗻𝗱𝗮𝗺𝗲𝗻𝘁𝗮𝗹𝘀:
+• What are mutable and immutable data types in Python?
+• Explain the difference between a list and a set.
+• What is a list comprehension in Python and how do you use them?
+• Write a function that returns the count of even and odd numbers from a provided list of integers.
+
+𝟮. 𝗣𝗮𝗻𝗱𝗮𝘀 𝗮𝗻𝗱 𝗗𝗮𝘁𝗮 𝗖𝗹𝗲𝗮𝗻𝗶𝗻𝗴:
+• What options do you have to combine multiple DataFrames into one?
+• How can you get the aggregated sums based on a categorical column?
+• Describe how you would identify and remove duplicate rows in a dataset.
+• How can you change the date format of a column?
+
+𝟯. 𝗥𝗲𝗮𝗹-𝗪𝗼𝗿𝗹𝗱 𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝘀:
+• Given sales data for the last year, how would you forecast sales for the next month using Python?
+• How would you calculate the average order basket size based on historical sales data?
+• Build a small data pipeline that reads in an Excel file, a CSV file, and a table from an SQLite table, and merges the three into a single DataFrame.
+• Write a Python script that identifies and plots the top 3 most frequent values in a dataset.
+
+𝟰. 𝗢𝗽𝘁𝗶𝗺𝗶𝘇𝗮𝘁𝗶𝗼𝗻 𝗮𝗻𝗱 𝗼𝘁𝗵𝗲𝗿 𝗣𝗮𝗰𝗸𝗮𝗴𝗲𝘀:
+• How can you improve the performance of a slow-running Python script for analyzing large datasets?
+• Explain how using vectorized functions with Pandas improves data processing speed compared to traditional for-loops.
+• Which Python library would you choose for web scraping and why?
+• Discuss a Python tool or library you've used for data analysis besides Pandas and NumPy and describe its benefits.
+
+Python is a great tool for data analysts. It helps a lot with data wrangling and it's your gateway to predictive analytics. As more and more data analyst positions require at least basic Python skills, you should be ready to face some questions in your next interview. 
+
+
