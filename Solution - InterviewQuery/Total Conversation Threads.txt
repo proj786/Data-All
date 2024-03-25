@@ -1,0 +1,24 @@
+https://www.interviewquery.com/questions/total-conversation-threads
+
+
+SQL :
+
+SELECT COUNT(DISTINCT 
+    LEAST(sender_id, receiver_id),
+    GREATEST(sender_id, receiver_id)
+) AS total_conv_threads
+FROM messenger_sends
+
+
+
+
+Python :
+
+import pandas as pd
+
+def total_conversation_threads(messenger_sends: pd.DataFrame):
+    messenger_sends['min_id'] = messenger_sends[['sender_id','receiver_id']].min(axis=1)
+    messenger_sends['max_id'] = messenger_sends[['sender_id','receiver_id']].max(axis=1)
+    total_conv_threads= len(messenger_sends[['min_id','max_id']].drop_duplicates())
+    res=pd.DataFrame(data={'total_conv_threads':total_conv_threads},index=[0])
+    return res

@@ -1,0 +1,19 @@
+https://www.interviewquery.com/questions/released-patients
+
+
+SQL :
+
+with cte1 as (
+select *
+      ,lag(released_patients) over(order by release_date ASC) as prior_day_patients
+ from released_patients
+)
+
+select release_date, released_patients from cte1
+where released_patients > prior_day_patients;
+
+
+
+
+Python :
+
