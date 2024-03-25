@@ -1,0 +1,39 @@
+https://www.interviewquery.com/questions/closed-accounts
+
+SQL :
+
+
+with cte1 as (
+select distinct account_id
+from account_status
+where date='2019-12-31'
+and status='open'
+)
+,cte2 as 
+(
+    select distinct a.account_id
+    from account_status a join cte1 b on a.account_id=b.account_id
+    where date='2020-01-01'
+    and status='closed'
+)
+select round((count(b.account_id)*1.0/count(a.account_id)),2) as percentage_closed
+from cte1 a left join cte2 b on a.account_id=b.account_id
+
+
+
+
+Python :
+
+import pandas as pd
+
+def closed_accounts(account_status: pd.DataFrame):
+    df1=account_status[(account_status['status']=='open') & (account_status['date']=='2019-12-31')]
+    df2=account_status[(account_status['status']=='closed')& (account_status['date']=='2020-01-01')]
+    
+    df = df1.merge(df2,on='account_id',how='inner')
+
+    res= df['account_id'].nunique()/ df1['account_id'].nunique()
+    res = pd.DataFrame({'percentage_closed':[res]})
+    
+    return res
+            
