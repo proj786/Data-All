@@ -1,0 +1,37 @@
+https://www.interviewquery.com/questions/purchased-product
+
+
+SQL :
+
+
+with cte1 as (
+select product_category, min(id) as first_purchase
+from purchases
+group by product_category
+)
+    select distinct a.product_name,
+    case when b.first_purchase is null then 1 else 0 end as category_previously_purchased
+    from purchases a left join cte1 b on a.id=b.first_purchase
+
+
+
+Python :
+
+
+WITH cte1 AS (
+    SELECT
+        product_name,
+        ROW_NUMBER() OVER (PARTITION BY product_category ORDER BY id) AS rnk
+    FROM
+        purchases
+)
+
+SELECT
+    product_name,
+    CASE WHEN rnk = 1 THEN 0 ELSE 1 END AS category_previously_purchased
+FROM
+    cte1;
+
+
+
+
