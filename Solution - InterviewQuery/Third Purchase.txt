@@ -1,0 +1,26 @@
+https://www.interviewquery.com/questions/third-purchase
+
+SQL :
+
+with cte1 as (
+select *,
+row_number() over(partition by user_id order by created_at , id) as rnk
+ from transactions
+)
+select user_id, created_at, product_id , quantity
+from cte1
+where rnk=3
+
+
+
+Python:
+
+import pandas as pd
+
+def third_purchase(transactions: pd.DataFrame):
+    df = transactions
+    df['created_at'] = pd.to_datetime(df['created_at'])
+    df['rank'] = df.groupby('user_id').created_at.rank(method='min')
+    df = df [df['rank']==3]
+    df = df.sort_values(by='id')
+    return df[['user_id','created_at','product_id','quantity']]
