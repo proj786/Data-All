@@ -1,0 +1,32 @@
+https://www.interviewquery.com/questions/atm-robbery
+
+SQL :
+
+with cte1 as(
+select *,
+      lag(created_at) over(order by created_at) as previous_timestamp,
+      lead(created_at) over(order by created_at) as next_timestamp
+ from bank_transactions
+)
+select user_id from cte1 
+where abs(TIMESTAMPDIFF(second,created_at,previous_timestamp))=10
+or abs(TIMESTAMPDIFF(second,created_at,next_timestamp)) = 10
+
+
+
+
+Python :
+
+import pandas as pd
+
+def atm_robbery(bank_transactions: pd.DataFrame):
+    bank = bank_transactions.sort_values(by='created_at')
+    bank['lag'] = bank['created_at'].shift(1)
+    bank['lead'] = bank['created_at'].shift(-1)
+    bank['lag'] = pd.to_datetime(bank['lag'])
+    bank['lead'] = pd.to_datetime(bank['lead'])
+    bank['created_at'] = pd.to_datetime(bank['created_at'])
+    bank['diff_lag'] = bank['created_at'] - bank['lag']
+    bank['diff_lag'] = bank.apply(lambda item: (item['created_at'] - item['lag']).total_seconds(), axis=1)
+    bank['diff_lead'] = bank.apply(lambda item: (item['lead'] - item['created_at']).total_seconds(), axis=1)
+    return bank.loc[(bank.diff_lag == 10) | (bank.diff_lead == 10), ['user_id']]
