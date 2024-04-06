@@ -1,0 +1,30 @@
+https://www.interviewquery.com/questions/free-seats
+
+
+SQL :
+
+with cte1 as (
+select a.id, a.plane_id,b.number_of_seats
+ from flights a join planes b on a.plane_id=b.id)
+ ,cte2 as (
+     select flight_id,count(seat_id) as purchased_seats
+     from flight_purchases
+     group by flight_id
+ )select b.flight_id, ( a.number_of_seats- b.purchased_seats) as free_seats
+ from cte1 a join cte2 b on a.id=b.flight_id
+
+
+
+Python :
+
+import pandas as pd
+
+def free_seats(flight_purchases: pd.DataFrame, flights: pd.DataFrame, planes: pd.DataFrame):
+    df1 = pd.merge(flights,planes,left_on='plane_id',right_on='id',how='inner')
+
+    flight_purchases = flight_purchases.groupby('flight_id')['seat_id'].count().reset_index()
+    
+    df2 = pd.merge(df1,flight_purchases,left_on='id_x',right_on='flight_id')
+
+    df2['free_seats'] = df2['number_of_seats'] - df2['seat_id']
+    return df2[['flight_id','free_seats']]          

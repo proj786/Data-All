@@ -1,0 +1,19 @@
+https://www.interviewquery.com/questions/cumulative-sales-by-product
+
+
+SQL :
+
+SELECT  product_id, date,
+       sum(price) over (partition by product_id order by date ) as cumulative_sum
+FROM sales
+
+
+
+
+Python :
+
+import pandas as pd
+
+def cumulative_sales_by_product(sales: pd.DataFrame):
+    sales['cumulative_sum'] = sales.sort_values(['product_id','date']).groupby('product_id')['price'].cumsum()
+    return sales[['product_id','date','cumulative_sum']]
