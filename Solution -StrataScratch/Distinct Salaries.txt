@@ -1,0 +1,41 @@
+Distinct Salaries
+
+https://platform.stratascratch.com/coding/9898-unique-salaries?code_type=1
+
+
+
+
+SQL 
+
+with cte as (
+select  department ,
+        salary ,
+        rank() over (partition by department order by salary DESC) as ranking
+from twitter_employee
+
+)
+
+select department , salary 
+from cte 
+where ranking <=3
+order by department asc , salary desc
+
+
+
+
+Python
+
+
+# Import your libraries
+import pandas as pd
+
+df = twitter_employee[['department','salary']]
+
+df['ranking'] = df.groupby('department')['salary'].rank(method='dense', ascending=False)
+df = df[df['ranking']<=3]
+
+df=df[['department','salary']]
+df.drop_duplicates(inplace=True)
+
+df.sort_values(by=['department','salary'],ascending=[True,False],inplace=True)
+df

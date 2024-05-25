@@ -1,0 +1,22 @@
+Department Manager and Employee Salary Comparison
+
+
+link : https://platform.stratascratch.com/coding/2146-department-manager-and-employee-salary-comparison?code_type=1
+
+
+SQL :
+
+select a.department ,
+       a.id ,
+       a.salary ,
+       b.salary as manager_salary ,
+       round(avg(a.salary) over (partition by a.department )) as average_salary
+from employee_o a join employee_o b on  a.manager_id =b.id  
+where a.employee_title <>'Manager'
+order by a.department ,a.salary DESC;
+
+
+
+
+Python :
+
