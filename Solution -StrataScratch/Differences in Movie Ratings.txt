@@ -1,0 +1,47 @@
+Differences in Movie Ratings
+
+https://platform.stratascratch.com/coding/9606-differences-in-movie-ratings?code_type=1
+
+
+SQL :
+
+ with cte1 as 
+ (select name ,rating,
+ avg(rating) over (partition by name) as average_lifetime_rating,
+ row_number() over (partition by name order by id desc  ) as ranking
+ from  nominee_filmography
+ where rating is not null
+ and role_type='Normal Acting'
+ )
+ 
+ select name 
+    ,average_lifetime_rating
+    ,rating
+    , abs(rating - average_lifetime_rating) as diff_ratings
+ from cte1
+ where ranking=2
+
+
+
+
+
+Python:
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+#nominee_filmography.head()
+df = nominee_filmography[nominee_filmography['role_type']=='Normal Acting']
+df.dropna(inplace=True)
+
+df['ranking'] = df.groupby('name')['id'].rank(ascending=False)
+
+res = df[df['ranking']==2][['name','rating']].set_index('name')
+res['lifetime_rating'] =df.groupby(['name'])['rating'].mean()
+
+
+res['diff_rating']=abs(res['rating']-res['lifetime_rating'])
+
+res.reset_index(inplace=True)
+res
