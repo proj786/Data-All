@@ -1,0 +1,22 @@
+Cookbook Recipes
+
+https://platform.stratascratch.com/coding/2089-cookbook-recipes?code_type=1
+
+
+SQL :
+
+
+
+Python:
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+cookbook_titles.head()
+df=pd.DataFrame ({'page_number': range(max(cookbook_titles.page_number)+1)})
+df_new=df.merge(cookbook_titles,how='left',on='page_number')
+df_new['right_title']=df_new.title.shift(-1)
+df_new=df_new[df_new['page_number']%2==0]
+df_new.rename(columns={'title':'left_title'},inplace=True)
+df_new

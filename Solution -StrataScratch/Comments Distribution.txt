@@ -1,0 +1,17 @@
+Comments Distribution
+
+# Import your libraries
+import pandas as pd
+import numpy as np
+# Start writing code
+# merge df
+
+df= pd.merge(fb_users,fb_comments,left_on='id',right_on='user_id',how='inner')
+
+df_filtered= df[['id','joined_at','created_at']]
+df_filtered=df_filtered[df_filtered['created_at']>df_filtered['joined_at']]
+df_filtered=df_filtered[df_filtered['joined_at'].dt.year.isin([2018,2019,2020])]
+df_filtered=df_filtered[df_filtered['created_at'].dt.year == 2020]
+df_filtered=df_filtered[df_filtered['created_at'].dt.month ==1]
+df_result=df_filtered.groupby('id')['created_at'].count().reset_index()
+df_result.groupby('created_at').count().reset_index()

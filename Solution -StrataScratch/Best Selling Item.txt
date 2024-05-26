@@ -1,0 +1,14 @@
+Best Selling Item
+
+
+import pandas as pd
+import numpy as np
+
+online_retail['month'] = (online_retail['invoicedate'].apply(pd.to_datetime)).dt.month
+online_retail['paid'] = online_retail['unitprice'] * online_retail['quantity']
+online_retail['total_paid'] = online_retail.groupby(['month','description'])['paid'].transform('sum')
+
+result =  online_retail[['month', 'total_paid', 'description']].drop_duplicates()
+result['rnk'] = result.groupby('month')['total_paid'].rank(method='max', ascending=False)
+result = result[result['rnk']==1][['month', 'description','total_paid']].sort_values(['month'])
+

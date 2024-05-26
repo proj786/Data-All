@@ -1,24 +1,9 @@
-https://platform.stratascratch.com/coding/10310-class-performance?code_type=3
+Class Performance
 
-SQL :
-
-with cte1 as (
-select *,
-(assignment1+assignment2+assignment3) as total_score
-from box_scores
-)
-
-select max(total_score)-min(total_score) as difference_in_scores from cte1
-
-
-
-Python:
 # Import your libraries
 import pandas as pd
 
 # Start writing code
-box_scores['total_score']=box_scores['assignment1']+box_scores['assignment2']+box_scores['assignment3']
+box_scores.head()
 
-diff=(box_scores['total_score'].max()-box_scores['total_score'].min())
-
-print(diff)
+diff= box_scores[['assignment1','assignment2','assignment3']].sum(axis=1).ptp()

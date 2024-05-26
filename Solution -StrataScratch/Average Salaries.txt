@@ -1,16 +1,6 @@
+Average Salaries
+
 https://platform.stratascratch.com/coding/9917-average-salaries?code_type=1
-
-SQL :
-
-select department,
-       first_name ,
-       salary ,
-       avg(salary) over (partition by department) as avg
-from employee;
-
-
-Python :
-
 
 # Import your libraries
 import pandas as pd
@@ -20,3 +10,5 @@ avg = employee.groupby('department').agg(avg= ('salary','mean')).reset_index()
 
 res = pd.merge(employee, avg, on='department',how='left')
 res[['department','first_name','salary','avg']]
+
+
