@@ -1,0 +1,38 @@
+Genre of person having highest Oscar winning
+
+
+https://platform.stratascratch.com/coding/10171-find-the-genre-of-the-person-with-the-most-number-of-oscar-winnings?code_type=1
+
+
+
+SQL :
+
+
+with cte1 as(
+select  nominee,  count(*) over(partition by nominee) as counting
+from oscar_nominees 
+where winner='True'
+order by counting DESC, nominee asc
+limit 1
+)
+
+select top_genre from nominee_information where name = (select nominee from cte1)
+
+
+
+
+Python :
+
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+oscar_nominees.head()
+
+df = oscar_nominees[oscar_nominees['winner']==True]
+df = df.groupby('nominee').size().reset_index(name ='oscar_count')
+df.sort_values(by=['oscar_count','nominee'], ascending=[False, True],inplace=True)
+
+res = pd.merge(df , nominee_information , left_on='nominee',right_on ='name',how='inner')['top_genre'][0]
+res

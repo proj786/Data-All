@@ -1,0 +1,33 @@
+Lowest and Highest Different
+
+https://platform.stratascratch.com/coding/9731-find-all-businesses-whose-lowest-and-highest-inspection-scores-are-different?code_type=1
+
+
+SQL :
+
+with cte1 as (
+select business_name, min(inspection_score) as lowest, max(inspection_score) as highest
+from sf_restaurant_health_violations
+group by business_name
+)
+
+select * from cte1 
+where lowest <> highest
+
+
+Python :
+
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+sf_restaurant_health_violations.head()
+
+df =sf_restaurant_health_violations.groupby('business_name').agg(lowest =('inspection_score','min'),
+                                                                 highest = ('inspection_score','max')).reset_index()
+                                                                 
+
+df = df[df['lowest'] != df['highest']]
+df.dropna(inplace=True)
+df
