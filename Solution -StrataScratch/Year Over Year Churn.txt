@@ -27,3 +27,23 @@ from cte2
 
 
 Python :
+
+# Import your libraries
+import pandas as pd
+import numpy as np
+
+# Start writing code
+lyft_drivers.head()
+
+df= lyft_drivers
+df['year'] = lyft_drivers.end_date.dt.year
+df['churned'] =np.where( df['year'].isnull(),0,1)
+
+df = df.groupby('year').agg(total_churn =("churned","sum")).reset_index()
+df['prev_year_churn'] = df['total_churn'].shift(1)
+df.fillna(0,inplace=True)
+
+df['status'] = np.where(df['total_churn']>df['prev_year_churn'] , 'increase',
+     np.where(df['total_churn'] < df['prev_year_churn'] , 'decrease', 'no change'))
+
+df
