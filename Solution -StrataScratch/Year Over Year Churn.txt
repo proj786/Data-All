@@ -1,0 +1,29 @@
+Year Over Year Churn
+
+https://platform.stratascratch.com/coding/10017-year-over-year-churn?code_type=1
+
+
+
+SQL :
+
+with cte1 as (
+select extract(year from end_date) as year 
+, sum(case when extract (year from end_date) is not null then 1 else 0 end)
+               as n_churned
+from lyft_drivers
+group by extract(year from end_date)
+
+),
+cte2 as (
+select * ,
+     lag(n_churned,1,0) over ( order by year asc ) as n_churned_prev
+from cte1 where year is not null )
+
+select * , 
+      case when n_churned > n_churned_prev then 'increase'
+           when n_churned < n_churned_prev  then 'decrease'
+           else 'no change' end as status
+from cte2
+
+
+Python :
