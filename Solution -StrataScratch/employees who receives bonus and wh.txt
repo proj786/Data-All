@@ -1,0 +1,33 @@
+employees who receives bonus and who didn't
+
+https://platform.stratascratch.com/coding/10081-find-the-number-of-employees-who-received-the-bonus-and-who-didnt?code_type=1
+
+
+
+SQL :
+with cte1 as(
+select * 
+      , case when bonus_amount != 0 then  1 else 0 end as has_bonus
+from employee e left join bonus b on e.id=b.worker_ref_id
+)
+
+select has_bonus , count(distinct id) as  n_employees
+from cte1 
+group by has_bonus
+
+
+
+Python :
+
+
+# Import your libraries
+import pandas as pd
+import numpy as np
+
+# Start writing code
+df = pd.merge(employee , bonus , left_on ='id' , right_on ='worker_ref_id' , how='left')
+
+df['has_bonus'] = np.where(df['bonus_amount']>0 ,1,0)
+
+df= df.groupby('has_bonus').agg(n_employees = ('id','nunique')).reset_index()
+df
