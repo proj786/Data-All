@@ -1,0 +1,40 @@
+Variance and Standard Deviation having grade A
+
+https://platform.stratascratch.com/coding/9708-find-the-variance-and-the-standard-deviation-of-scores-that-have-grade-a?code_type=1
+
+
+
+SQL :
+with cte1 as (
+select score , grade,avg(score) over () as mean_x
+from  los_angeles_restaurant_health_inspections
+where grade ='A')
+
+select avg((score - mean_x) * (score - mean_x)) as variance,
+      sqrt(avg((score - mean_x) * (score - mean_x))) as std
+from cte1
+
+
+
+Python :
+
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+
+df = los_angeles_restaurant_health_inspections
+df = df[df['grade']=='A']
+
+
+
+df['mean_x'] = df['score'].mean()
+
+df['var'] = ( df['score'] - df['mean_x']) * ( df['score'] - df['mean_x'])
+
+df['variance'] = df['var'].mean()
+df.drop_duplicates(subset=['variance'],inplace=True)
+df['std'] = df['variance'] ** (1/2)
+df = df[['variance','std']]
+
+df

@@ -1,0 +1,37 @@
+top 5 least paid employees for each job title 
+
+https://platform.stratascratch.com/coding/9986-find-the-top-5-least-paid-employees-for-each-job-title?code_type=1
+
+
+
+SQL :
+
+
+with cte1 as (
+select employeename,
+       jobtitle,
+       totalpaybenefits , 
+       row_number() over (partition by jobtitle order by totalpaybenefits) as ranking
+from sf_public_salaries
+)
+select employeename,
+       jobtitle,
+       totalpaybenefits 
+from cte1 
+where ranking <=5
+
+Python : 
+
+import pandas as pd 
+
+
+df = sf_public_salaries[['employeename', 'jobtitle', 'totalpaybenefits']]
+
+df['rank'] = df.groupby('jobtitle')['totalpaybenefits'].rank(method = 'dense')
+
+df.sort_values(by=['jobtitle','rank'])
+
+df_sorted=df[df['rank']<=5]
+df_result=df_sorted.sort_values(by=['jobtitle','rank'])
+result=df_result[['employeename','jobtitle', 'totalpaybenefits']]
+result
