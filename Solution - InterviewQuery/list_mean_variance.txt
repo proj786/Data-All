@@ -1,0 +1,24 @@
+https://www.interviewquery.com/questions/compute-deviation
+
+
+
+Python :
+
+
+import math as m
+
+def mean(data):
+    return float(sum(data)/len(data))
+
+def variance(data):
+    mu= mean(data)
+    return (mean([(x-mu)**2 for x in data]))
+
+def stdev(data):
+    return m.sqrt(variance(data))
+
+def compute_deviation(input):
+    new_dict = {}
+    for dic in input:
+        new_dict[dic.get('key')] = stdev(dic.get('values'))
+    return new_dict

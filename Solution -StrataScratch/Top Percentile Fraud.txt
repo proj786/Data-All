@@ -1,0 +1,22 @@
+Top Percentile Fraud
+
+Link:
+https://platform.stratascratch.com/coding/10303-top-percentile-fraud?code_type=1
+
+
+
+SQL  :
+
+SELECT 
+        policy_num,
+        state, 
+        claim_cost,
+        fraud_score, 
+        NTILE(20) OVER (PARTITION BY state ORDER BY fraud_score DESC) AS rnk 
+    FROM fraud_score
+
+
+
+
+
+Python :

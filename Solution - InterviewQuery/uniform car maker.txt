@@ -1,0 +1,15 @@
+https://www.interviewquery.com/questions/uniform-car-maker
+
+
+SQL :
+
+SELECT distinct make FROM cars
+order by rand()  limit 1
+
+
+Python:
+import pandas as pd
+
+def random_car_maker(cars: pd.DataFrame):
+    output = cars[['make']].drop_duplicates()
+    return output.sample(1)
